@@ -7,11 +7,11 @@
 
 
 # extract_patches_color
---in_dir "/tmp/uc46epev/icdar17_data/input_icdar_temp/color/train"
---out_dir "/tmp/uc46epev/icdar17_data/ouput_icdar_temp/my_script/extract_patches_color"
---num_of_clusters 50
+--in_dir "/tmp/uc46epev/icdar17_data/input_icdar_real_/color/train/icdar2017-training-color"
+--out_dir "/tmp/uc46epev/icdar17_data/output_icdar_real_/color/train_5000"
+--num_of_clusters 5000
 --sigma 2.5
---patches_per_page 50
+--patches_per_page -1
 
 
 #extract_patches
@@ -34,4 +34,23 @@
 --sigma 2.5
  -black_pixel_thresh -1
 --white_pixel_thresh 0.95
+
+
+# Paths to input and output directories
+IN_DIR=""
+OUT_DIR=""
+
+# Log file locations
+LOG_FILE="/media/usb/icdar/icdar23/log/extract_patches_color"
+ERROR_LOG="/media/usb/icdar/icdar23/log/extract_patches_error.txt"
+
+# Python environment
+VENV_PATH="/tmp/uc46epev/envs/icd"
+
+PYTHON_PATH="/media/usb/icdar/icdar23/helpers/extract_patches_color.py"
+
+# Parameters
+NUM_CLUSTERS=1000
+PATCHES_PER_PAGE=-1
+SIGMA=2.5
 

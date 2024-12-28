@@ -11,8 +11,7 @@ from tqdm import tqdm
 import bz2
 import pickle
 
-from utils.logging_script import setup_logging
-
+from logging_script import setup_logging
 script_name = os.path.basename(__file__)
 print(f"Running script: {script_name}")
 logger = setup_logging(script_name)
@@ -233,7 +232,7 @@ if __name__ == "__main__":
     assert len(os.listdir(args.out_dir[0])) == 0, 'out_dir is not empty'
     assert args.win_size % 2 == 0, 'win_size must be even'
     num_cores = int(multiprocessing.cpu_count() / 2)
-    num_cores = 14
+    # num_cores = 14
     path_to_centers = ''
 
     # Gather all image files

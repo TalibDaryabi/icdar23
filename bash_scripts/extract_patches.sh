@@ -14,12 +14,12 @@ PYTHON_PATH="/media/usb/icdar/icdar23/helpers/extract_patches.py"
 
 # Parameters
 # Paths to input and output directories
-IN_DIR="/tmp/uc46epev/icdar17_data/output_icdar_real_/bin/train"
-OUT_DIR="/tmp/uc46epev/icdar17_data/output_icdar_real_/bin/train"
+IN_DIR="/tmp/uc46epev/icdar17_data/input_icdar_real_/bin/train/icdar2017-training-binary"
+OUT_DIR="/tmp/uc46epev/icdar17_data/output_icdar_real_/bin/train_5000"
 WIN_SIZE=32
 PATCHES_PER_PAGE=-1
 SCALE=-1
-NUM_CLUSTER=1000
+NUM_CLUSTER=5000
 BLACK_PIXEL_THRESH=-1
 WHITE_PIXEL_THRESH=0.95
 CENTERED=True

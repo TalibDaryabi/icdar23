@@ -13,8 +13,7 @@ import bz2
 import argparse
 import pickle
 
-from utils.logging_script import setup_logging
-
+from logging_script import setup_logging
 script_name = os.path.basename(__file__)
 print(f"Running script: {script_name}")
 logger = setup_logging(script_name)
@@ -135,6 +134,7 @@ def extract_patches(filename, tup, args):
         roi = get_image_patch(img, p[0], p[1], args)
         if roi is None:
             logger.info(f"no roi found #iteration {count} for {filename}")
+            print(f"no roi found #iteration {count} for {filename}")
             continue
 
         file_name = str(c) + '_' + os.path.splitext(os.path.basename(filename))[0] + '_' + str(count)

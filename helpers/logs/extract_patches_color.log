@@ -1,0 +1,9 @@
+2024-12-28 22:41:39,812 - INFO - Found 1182 images
+2024-12-28 22:41:39,812 - INFO - calculating features for images in ['/tmp/uc46epev/icdar17_data/input_icdar_real_/color/train/icdar2017-training-color'] (number of cores:10)
+2024-12-28 22:44:32,256 - INFO - collecting descriptors
+2024-12-28 22:44:32,978 - INFO - calculating pca (number of patches: 5684202)
+2024-12-28 22:44:38,656 - INFO - calculating new centers (shape: (5684202, 32))
+2024-12-28 22:44:38,656 - INFO - starting KMeans (centers: 5000)
+2024-12-28 22:45:34,712 - INFO - saving centers to /tmp/uc46epev/icdar17_data/output_icdar_real_/color/train_5000/centers.pkl
+2024-12-28 22:54:38,011 - INFO - writing config parameters to /tmp/uc46epev/icdar17_data/output_icdar_real_/color/train_5000/db-creation-parameters.json
+2024-12-28 22:54:38,011 - INFO - done

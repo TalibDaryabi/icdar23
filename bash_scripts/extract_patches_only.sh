@@ -11,7 +11,7 @@ PYTHON_PATH="/media/usb/icdar/icdar23/helpers/extract_patches_only.py"
 
 # Parameters
 # Paths to input and output directories
-IN_DIR="/tmp/uc46epev/icdar17_data/input_icdar_real_/bin/test"
+IN_DIR="/tmp/uc46epev/icdar17_data/input_icdar_real_/bin/test/ScriptNet-HistoricalWI-2017-binarized"
 OUT_DIR="/tmp/uc46epev/icdar17_data/output_icdar_real_/bin/test"
 WIN_SIZE=32
 PATCHES_PER_PAGE=2000
