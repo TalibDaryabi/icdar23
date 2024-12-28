@@ -15,10 +15,10 @@ PYTHON_PATH="/media/usb/icdar/icdar23/helpers/extract_patches_only_color.py"
 # Parameters
 # Paths to input and output directories
 IN_DIR="/tmp/uc46epev/icdar17_data/input_col_temp/test"
-OUT_DIR="/tmp/uc46epev/icdar17_data/output_col/test"
+OUT_DIR="/tmp/uc46epev/icdar17_data/ouput_icdar_temp/my_script/extract_patches_only_color"
 WIN_SIZE=32
 # config value is 2k , default value is -1
-PATCHES_PER_PAGE=2000
+PATCHES_PER_PAGE=20
 SCALE=-1
 # no value in Config
 EDGE_PIXELS=0.1

@@ -1,0 +1,6 @@
+#extract_patches_only_color_original
+--in_dir "/tmp/uc46epev/icdar17_data/input_icdar_temp/color/train"
+--out_dir "/tmp/uc46epev/icdar17_data/ouput_icdar_temp/my_script/all_patches_single_file"
+--patches_per_page 20
+--sigma 2.5
+
