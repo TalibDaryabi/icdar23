@@ -19,10 +19,9 @@ script_name = os.path.basename(__file__)
 print(f"Running script: {script_name}")
 logger = setup_logging(script_name)
 
-IMG_EXTENSIONS = [
+IMG_EXTENSIONS = (
     '.jpg', '.JPG', '.jpeg', '.JPEG',
-    '.png', '.PNG', '.ppm', '.PPM', '.bmp', '.BMP', '.tif', '.tiff', '.TIF', '.TIFF'
-]
+    '.png', '.PNG', '.ppm', '.PPM', '.bmp', '.BMP', '.tif', '.tiff', '.TIF', '.TIFF')
 
 
 def is_image_file(filename):
@@ -135,7 +134,7 @@ def extract_patches(filename, tup, args):
     for p, c in zip(points, clusters):
         roi = get_image_patch(img, p[0], p[1], args)
         if roi is None:
-            print("continue")
+            logger.info(f"no roi found #iteration {count} for {filename}")
             continue
 
         file_name = str(c) + '_' + os.path.splitext(os.path.basename(filename))[0] + '_' + str(count)
@@ -149,11 +148,11 @@ def extract_patches(filename, tup, args):
             })
             count += 1
         except Exception as e:
-            print("exception accused during writing patches into the dict")
+            # print("exception accused during writing patches into the dict")
             logger.info("exception while adding patches on dictionary inside the extract_patches function")
 
-    logger.info(f'Extracted {sum(len(patches) for patches in clustered_patches.values())} patches from {filename}')
-    print(f"{count} number of patches added for {filename}")
+    # logger.info(f'Extracted {sum(len(patches) for patches in clustered_patches.values())} patches from {filename}')
+    # print(f"{count} number of patches added for {filename}")
     return clustered_patches
 
 
@@ -205,8 +204,7 @@ if __name__ == "__main__":
     path_to_centers = ''
 
     # Gather all image files
-    # files = list(gather_image_files_with_oswalk(args.in_dir[0], IMG_EXTENSIONS))
-    files = [f for f in glob.glob(args.in_dir[0] + '/**/*.*', recursive=True) if os.path.isfile(f) and is_image_file(f)]
+    files = list(gather_image_files_with_oswalk(args.in_dir[0], IMG_EXTENSIONS))
 
     assert len(files) > 0, 'no images found'
     logger.info('Found {} images'.format(len(files)))
@@ -288,13 +286,12 @@ if __name__ == "__main__":
     # Global dictionary to hold consolidated patches by cluster
     all_clusters = defaultdict(list)
     # Consolidate patches from all images into the global cluster dictionary
-    nnnn = 0
+
     for image_patches in patches_results:
         for cluster_id, patches in image_patches.items():
             all_clusters[cluster_id].extend(patches)
-        print(f"{len(image_patches)} added to cluster {cluster_id}")# Append patches to the respective cluster
-        print(f"{nnnn} iteration of results")
-        nnnn +=1
+        # print(f"{len(image_patches)} added to cluster {cluster_id}")# Append patches to the respective cluster
+
 
     # Save the consolidated patches to a single file
     output_file = os.path.join(args.out_dir[0], "consolidated_clusters.pkl.bz2")

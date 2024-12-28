@@ -17,10 +17,10 @@ script_name = os.path.basename(__file__)
 print(f"Running script: {script_name}")
 logger = setup_logging(script_name)
 
-IMG_EXTENSIONS = [
+IMG_EXTENSIONS = (
     '.jpg', '.JPG', '.jpeg', '.JPEG',
     '.png', '.PNG', '.ppm', '.PPM', '.bmp', '.BMP', '.tif', '.tiff', '.TIF', '.TIFF'
-]
+)
 
 
 def is_image_file(filename):
@@ -136,12 +136,11 @@ def extract_patches(filename, tup, args):
 
     return os.path.basename(filename), patch_data  # Return filename and its patches
 
-    # At the end of processing, save all patches of a single image to a compressed pickle file
-    # output_file = os.path.join(args.out_dir[0], os.path.splitext(os.path.basename(filename))[0] + ".pkl.bz2")
-    # with bz2.BZ2File(output_file, "wb") as f:
-    #     pickle.dump(patch_data, f)
-    #     print("Saved %d patches to %s" % (count, output_file))
-
+def gather_image_files_with_oswalk(directory, extensions):
+    for root, _, files in os.walk(directory):
+        for file in files:
+            if file.lower().endswith(extensions):
+                yield os.path.join(root, file)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="extract patches from images")
@@ -176,7 +175,7 @@ if __name__ == "__main__":
     assert args.win_size % 2 == 0, 'win_size must be even'
 
     num_cores = int(multiprocessing.cpu_count() / 2)
-    num_cores = 10
+    # num_cores = 10
     path_to_centers = ''
 
 
@@ -186,7 +185,7 @@ if __name__ == "__main__":
 
 
     # Gather all image files
-    files = [f for f in glob.glob(args.in_dir[0] + '/**/*.*', recursive=True) if os.path.isfile(f) and is_image_file(f)]
+    files = list(gather_image_files_with_oswalk(args.in_dir[0], IMG_EXTENSIONS))
 
     file_lists = list(chunks(files, 5000))
     logger.info(f'{len(list(file_lists))} lists')
