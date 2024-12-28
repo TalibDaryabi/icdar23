@@ -32,3 +32,4 @@ nosetests.xml
 .hypothesis/
 
 .idea/
+utils/logs/
