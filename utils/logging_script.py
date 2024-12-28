@@ -8,12 +8,12 @@ def setup_logging(file_name):
     - Creates or overwrites a log file named after the script in the `logs` folder.
     - Returns a logger object.
     """
-    script_name = os.path.basename(__file__)
-    root_directory = os.path.abspath(os.sep)
+    # Get the directory of the current script
+    script_directory = os.path.dirname(os.path.abspath(__file__))
 
-    # Create `logs` folder if it doesn't exist
-    log_folder = os.path.join(root_directory, "logs")
-    os.makedirs(log_folder, exist_ok=True)
+    # Create `logs` folder in the script's directory
+    log_folder = os.path.join(script_directory, "logs")
+    os.makedirs(log_folder, exist_ok=True)  # Ensure the folder exists
 
     # Define log file path
     log_filename = os.path.join(log_folder, f"{os.path.splitext(file_name)[0]}.log")
@@ -27,7 +27,4 @@ def setup_logging(file_name):
             logging.StreamHandler()  # Log to console
         ]
     )
-
-    logger = logging.getLogger(__name__)  # Get a logger specific to this script
-    logger.info(f"Logging initialized for {script_name}. Logs are being saved to {log_filename}")
-    return logger
+    return logging.getLogger(file_name)
