@@ -17,22 +17,21 @@
 #extract_patches
 
 --in_dir "/tmp/uc46epev/icdar17_data/input_icdar_temp/binarized/train"
---out_dir "/tmp/uc46epev/icdar17_data/ouput_icdar_temp/my_script/extract_patches"
+--out_dir "/tmp/uc46epev/icdar17_data/ouput_icdar_temp/orginal_script/extract_patches"
 --num_of_clusters 50
 --sigma 2.5
---black_pixel_thresh -1
 --white_pixel_thresh 0.98
 --scale -1
 --patches_per_page 50
-
+--black_pixel_thresh -1
 
 #extract_patches_only
 
 --in_dir "/tmp/uc46epev/icdar17_data/input_icdar_temp/binarized/test"
---out_dir "/tmp/uc46epev/icdar17_data/ouput_icdar_temp/my_script/extract_patches_only"
---patches_per_page 20
+--out_dir "/tmp/uc46epev/icdar17_data/ouput_icdar_temp/orginal_script/extract_patches_only"
+--patches_per_page 50
 --sigma 2.5
- -black_pixel_thresh -1
+--black_pixel_thresh -1
 --white_pixel_thresh 0.95
 
 

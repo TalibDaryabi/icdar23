@@ -29,6 +29,7 @@ from backbone import resnets
 from backbone.model import Model
 
 import torch.multiprocessing
+
 torch.multiprocessing.set_sharing_strategy('file_system')
 
 
@@ -86,7 +87,7 @@ def encode_per_class(model, args, poolings=[]):
         idx = np.where((np_writer == w) & (np_page == p))[0]
         fps = [srcs[i] for i in idx]
         ds = FilepathImageDataset(fps, pil_loader, transform)
-        loader =  torch.utils.data.DataLoader(ds, num_workers=4, batch_size=args['test_batch_size'])
+        loader = torch.utils.data.DataLoader(ds, num_workers=4, batch_size=args['test_batch_size'])
 
         feats = []
         for img in loader:
@@ -106,7 +107,7 @@ def encode_per_class(model, args, poolings=[]):
 
     torch.cuda.empty_cache()
     pfs_per_pooling = [np.concatenate(pfs) for pfs in pfs_per_pooling]
-    
+
     return pfs_per_pooling, writers
 
 
@@ -120,9 +121,9 @@ def inference(model, ds, args):
 
     for sample, labels in tqdm(loader, desc='Inference'):
         if len(labels) == 3:
-            w,p = labels[1], labels[2]
+            w, p = labels[1], labels[2]
         else:
-            w,p = labels[0], labels[1]
+            w, p = labels[0], labels[1]
 
         writers.append(w)
         pages.append(p)
@@ -132,15 +133,15 @@ def inference(model, ds, args):
             emb = model(sample)
             emb = torch.nn.functional.normalize(emb)
         feats.append(emb.detach().cpu().numpy())
-    
+
     feats = np.concatenate(feats)
     writers = np.concatenate(writers)
-    pages = np.concatenate(pages)   
+    pages = np.concatenate(pages)
 
     return feats, writers, pages
 
-def test(model, logger, args, name='Test'):
 
+def test(model, logger, args, name='Test'):
     # define the poolings
     sumps, poolings = [], []
     sumps.append(SumPooling('l2', pn_alpha=0.4))
@@ -184,7 +185,7 @@ def test(model, logger, args, name='Test'):
                 best_top1 = res['top1']
                 best_pooling = f'{poolings[i]}-{p}'
                 pk.dump(pca, open(os.path.join(logger.log_dir, 'pca.pkl'), "wb"))
-                
+
             table.append([f'{poolings[i]}-{p}', meanavp, res['top1']])
             print(f'{poolings[i]}-{p}-{name} MAP: {meanavp}')
             print(f'''{poolings[i]}-{p}-{name} Top-1: {res['top1']}''')
@@ -194,12 +195,14 @@ def test(model, logger, args, name='Test'):
     logger.log_value(f'Best-Top1', best_top1)
     print(f'Best-Pooling: {best_pooling}')
 
+
 ###########
 
 def get_optimizer(args, model):
     optimizer = optim.Adam(model.parameters(), lr=args['optimizer_options']['base_lr'],
-                    weight_decay=args['optimizer_options']['wd'])
+                           weight_decay=args['optimizer_options']['wd'])
     return optimizer
+
 
 def validate(model, val_ds, args):
     desc, writer, pages = inference(model, val_ds, args)
@@ -218,14 +221,18 @@ def validate(model, val_ds, args):
 
 
 def train_one_epoch(model, train_ds, triplet_loss, optimizer, scheduler, epoch, args, logger):
-
     model.train()
     model = model.cuda()
 
     # set up the triplet stuff
-    sampler = samplers.MPerClassSampler(np.array(train_ds.dataset.labels[args['train_label']])[train_ds.indices], args['train_options']['sampler_m'], length_before_new_iter=args['train_options']['length_before_new_iter']) #len(ds))
-    train_triplet_loader = torch.utils.data.DataLoader(train_ds, sampler=sampler, batch_size=args['train_options']['batch_size'], drop_last=True, num_workers=32)
-    
+    sampler = samplers.MPerClassSampler(np.array(train_ds.dataset.labels[args['train_label']])[train_ds.indices],
+                                        args['train_options']['sampler_m'],
+                                        length_before_new_iter=args['train_options'][
+                                            'length_before_new_iter'])  #len(ds))
+    train_triplet_loader = torch.utils.data.DataLoader(train_ds, sampler=sampler,
+                                                       batch_size=args['train_options']['batch_size'], drop_last=True,
+                                                       num_workers=32)
+
     pbar = tqdm(train_triplet_loader)
     pbar.set_description('Epoch {} Training'.format(epoch))
     iters = len(train_triplet_loader)
@@ -238,12 +245,12 @@ def train_one_epoch(model, train_ds, triplet_loss, optimizer, scheduler, epoch, 
                 param_group['lr'] = scheduler[-1]
             else:
                 param_group["lr"] = scheduler[it]
-            
+
             if param_group.get('name', None) == 'lambda':
                 param_group['lr'] *= args['optimizer_options']['gmp_lr_factor']
-   
+
         samples = samples.cuda()
-        samples.requires_grad=True
+        samples.requires_grad = True
 
         if args['train_label'] == 'cluster':
             l = label[0]
@@ -267,13 +274,15 @@ def train_one_epoch(model, train_ds, triplet_loss, optimizer, scheduler, epoch, 
     torch.cuda.empty_cache()
     return model
 
-def train(model, train_ds, val_ds, args, logger, optimizer):
 
+def train(model, train_ds, val_ds, args, logger, optimizer):
     epochs = args['train_options']['epochs']
 
     niter_per_ep = math.ceil(args['train_options']['length_before_new_iter'] / args['train_options']['batch_size'])
-    lr_schedule = cosine_scheduler(args['optimizer_options']['base_lr'], args['optimizer_options']['final_lr'], epochs, niter_per_ep, warmup_epochs=args['optimizer_options']['warmup_epochs'], start_warmup_value=0)
-    
+    lr_schedule = cosine_scheduler(args['optimizer_options']['base_lr'], args['optimizer_options']['final_lr'], epochs,
+                                   niter_per_ep, warmup_epochs=args['optimizer_options']['warmup_epochs'],
+                                   start_warmup_value=0)
+
     best_epoch = -1
     best_map = validate(model, val_ds, args)
 
@@ -290,12 +299,10 @@ def train(model, train_ds, val_ds, args, logger, optimizer):
         logger.log_value('Val-mAP', mAP)
         print(f'Val-mAP: {mAP}')
 
-
         if mAP > best_map:
             best_epoch = epoch
             best_map = mAP
             save_model(model, optimizer, epoch, os.path.join(logger.log_dir, 'model.pt'))
-
 
         if (epoch - best_epoch) > args['train_options']['callback_patience']:
             break
@@ -303,11 +310,12 @@ def train(model, train_ds, val_ds, args, logger, optimizer):
     # load best model
     checkpoint = torch.load(os.path.join(logger.log_dir, 'model.pt'))
     print(f'''Loading model from Epoch {checkpoint['epoch']}''')
-    model.load_state_dict(checkpoint['model_state_dict'])    
-    model.eval() 
+    model.load_state_dict(checkpoint['model_state_dict'])
+    model.eval()
     optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
 
     return model, optimizer
+
 
 def prepare_logging(args):
     os.path.join(args['log_dir'], args['super_fancy_new_name'])
@@ -316,10 +324,10 @@ def prepare_logging(args):
     logger.log_options(args)
     return logger
 
-def train_val_split(dataset, prop = 0.9):
+
+def train_val_split(dataset, prop=0.9):
     authors = list(set(dataset.labels['writer']))
     random.shuffle(authors)
-
     train_len = math.floor(len(authors) * prop)
     train_authors = authors[:train_len]
     val_authors = authors[train_len:]
@@ -330,7 +338,8 @@ def train_val_split(dataset, prop = 0.9):
     val_idxs = []
 
     for i in tqdm(range(len(dataset)), desc='Splitting dataset'):
-        w = dataset.get_label(i)[1]
+        # it calls the SelectLabels get_label function, dataset is of SelectLabels type.
+        w = dataset.get_label(i)[1]  # taking the writer
         if w in train_authors:
             train_idxs.append(i)
         if w in val_authors:
@@ -340,6 +349,7 @@ def train_val_split(dataset, prop = 0.9):
     val = torch.utils.data.Subset(dataset, val_idxs)
 
     return train, val
+
 
 def main(args):
     logger = prepare_logging(args)
@@ -360,8 +370,9 @@ def main(args):
     model.train()
     model = model.cuda()
 
+    # first is transform to tensor and...
     tfs = []
-   
+    # only we use it when we train on color
     if args.get('grayscale', None):
         tfs.extend([
             transforms.ToTensor(),
@@ -370,23 +381,26 @@ def main(args):
     else:
         tfs.append(transforms.ToTensor())
 
+    # Defining the Erosion() and Dilation() transformer , classes are defined in aug.py file
+    # since default is morph so this will be applied
     if args.get('data_augmentation', None) == 'morph':
         tfs.extend([transforms.RandomApply(
             [Erosion()],
             p=0.3
         ),
-        transforms.RandomApply(
-            [Dilation()],
-            p=0.3
-        )])
+            transforms.RandomApply(
+                [Dilation()],
+                p=0.3
+            )])
 
     transform = transforms.Compose(tfs)
 
     train_dataset = None
     if args['trainset']:
-        d = WriterZoo.get(**args['trainset'])
+        dataset_name = args['trainset']['dataset']
+        d = WriterZoo.get(dataset_name, **args['trainset'])  # writerZoo.get(dataset , set )
         train_dataset = d.TransformImages(transform=transform).SelectLabels(label_names=['cluster', 'writer', 'page'])
-    
+
     if args.get('use_test_as_validation', False):
         val_ds = WriterZoo.get(**args['testset'])
         if args.get('grayscale', None):
@@ -408,10 +422,10 @@ def main(args):
     if args['checkpoint']:
         print(f'''Loading model from {args['checkpoint']}''')
         checkpoint = torch.load(args['checkpoint'])
-        model.load_state_dict(checkpoint['model_state_dict'])    
-        model.eval() 
+        model.load_state_dict(checkpoint['model_state_dict'])
+        model.eval()
 
-        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])    
+        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
 
     if not args['only_test']:
         model, optimizer = train(model, train_ds, val_ds, args, logger, optimizer)
@@ -423,7 +437,6 @@ def main(args):
 
 
 if __name__ == '__main__':
-
     logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s ')
     parser = argparse.ArgumentParser()
 
@@ -440,12 +453,12 @@ if __name__ == '__main__':
                         help='seed')
 
     args = parser.parse_args()
-        
+
     config = load_config(args)[0]
 
     GPU.set(args.gpuid, 400)
     cudnn.benchmark = True
-    
+
     seed_everything(args.seed)
-    
+
     main(config)

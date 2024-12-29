@@ -1,3 +1,7 @@
+import bz2
+import io
+import pickle
+
 import torch.utils.data as data
 
 from PIL import Image
@@ -10,53 +14,127 @@ from PIL import ImageOps
 import glob
 from torch.utils.data import DataLoader
 import logging
-
-IMG_EXTENSIONS = (
-    '.jpg', '.JPG', '.jpeg', '.JPEG',
-    '.png', '.PNG', '.ppm', '.PPM', '.bmp', '.BMP', '.tif', '.tiff', '.TIF', '.TIFF'
-)
-
-
-def is_image_file(filename, ext=IMG_EXTENSIONS):
-    return any(filename.endswith(extension) for extension in ext)
+import os
+import pickle
+import bz2
+import re
+from tqdm import tqdm
 
 
-def make_dataset(cur_dir, rxs, extensions):
-    assert rxs is not None, 'no regular expression is set'
-    cur_dir = os.path.expanduser(cur_dir)
+def make_dataset_from_pickle_file(folder_path):
+    """
+    Extracts filenames, patches, and keypoints from the first .pkl.bz2 file found in a folder.
 
-    filegen = glob.glob(cur_dir + '/**/*.*', recursive=True)
-    
-    files = [f for f in tqdm(filegen, 'Parsing Filenames')
-             if os.path.isfile(f) and is_image_file(f, extensions)]
-    files.sort()
+    Args:
+        folder_path (str): Path to the folder containing the .pkl.bz2 file.
 
-    if len(files) == 0:
-        raise (RuntimeError("Found 0 images in subfolders of: {}\n"
-                            "Supported image extensions are: {}".format(cur_dir, ",".join(extensions))))
+    Returns:
+        tuple: Three lists containing filenames, patches, and keypoints, respectively.
+    """
+    # Ensure the folder exists
+    if not os.path.isdir(folder_path):
+        raise ValueError(f"The folder {folder_path} does not exist.")
 
-    # this below should probably be moved to a regex label class or something
-    # could be changed to imgage dataset and label decorator
+    # Find the first .pkl.bz2 file in the folder
+    pickle_file = next((f for f in os.listdir(folder_path) if f.endswith(".pkl.bz2")), None)
+    if pickle_file is None:
+        raise ValueError(f"No .pkl.bz2 file found in the folder {folder_path}.")
+
+    file_path = os.path.join(folder_path, pickle_file)
+
+    # Load the pickle file
+    try:
+        with bz2.BZ2File(file_path, "rb") as f:
+            data = pickle.load(f)
+    except Exception as e:
+        raise ValueError(f"Failed to load the pickle file: {file_path}. Error: {e}")
+
+    # Lists to store filenames, patches, and keypoints
+    file_names = []
+    patches_of_files = []
+    key_points_of_patches = []
+
+    # Extract data
+    for cluster_id, patches in data.items():
+        for patch_data in patches:
+            file_names.append(patch_data["patch_name"])
+            patches_of_files.append(patch_data["patch"])
+            key_points_of_patches.append(patch_data["keypoint"])
+
+    # Sort filenames and reorder other lists accordingly
+    sorted_indices = sorted(range(len(file_names)), key=lambda i: file_names[i])
+    file_names = [file_names[i] for i in sorted_indices]
+    patches_of_files = [patches_of_files[i] for i in sorted_indices]
+    key_points_of_patches = [key_points_of_patches[i] for i in sorted_indices]
+
+    return file_names, patches_of_files, key_points_of_patches
+
+
+def extract_labels_from_patches(files, rxs):
+    """
+    Extracts labels, label-to-integer mappings, and integer-to-label mappings from patch names.
+
+    Args:
+        files (list): List of patch names (from make_dataset_from_pickle_file).
+        rxs (dict): Dictionary of label names and corresponding regex patterns.
+
+    Returns:
+        tuple: (files, labels, label_to_int, int_to_label)
+            - files (list): List of patch names.
+            - labels (dict): Dictionary of labels, converted to integer mappings for each regex.
+            - label_to_int (dict): Mapping from labels to integers for each regex.
+            - int_to_label (dict): Mapping from integers to labels for each regex.
+    """
+    # Initialize dictionaries
     labels = {}
     label_to_int = {}
     int_to_label = {}
-    for path in tqdm(files, 'Labels'):
-        f = os.path.basename(path)
+
+    # Process each patch name
+    for patch_name in tqdm(files, desc="Extracting Labels"):
         for name, regex in rxs.items():
-            r = '_'.join(re.search(regex, f).groups())
+            # Match the regex
+            match = re.search(regex, patch_name)
+            if not match:
+                continue  # Skip if regex does not match
+
+            # Extract the label
+            extracted_label = '_'.join(match.groups())
+
+            # Initialize dictionaries for the current label name
             labels[name] = labels.get(name, [])
-            labels[name].append(r)
-
             label_to_int[name] = label_to_int.get(name, {})
-            label_to_int[name][r] = label_to_int[name].get(r, len(label_to_int[name]))
-
             int_to_label[name] = int_to_label.get(name, {})
-            int_to_label[name][label_to_int[name][r]] = r
 
-    for name, lst in labels.items():
-        labels[name] = [label_to_int[name][l] for l in lst]
+            # Map label to integer
+            if extracted_label not in label_to_int[name]:
+                new_int = len(label_to_int[name])
+                label_to_int[name][extracted_label] = new_int
+                int_to_label[name][new_int] = extracted_label
 
-    return files, labels, label_to_int, int_to_label
+            # Append the integer label
+            labels[name].append(label_to_int[name][extracted_label])
+
+    return labels, label_to_int, int_to_label
+
+
+def make_dataset(cur_dir, rxs):
+    """
+    # files = ["789_123-IMG_MAX_456_7", "890_124-IMG_MAX_457_8"]
+     {                                                     label_to_int      {                          int_to_label  {
+      'cluster': [0, 1],  # Mapped integers for clusters            'cluster': {'789': 0, '890': 1},                    'cluster': {0: '789', 1: '890'},
+      'writer': [0, 1],   # Mapped integers for writers              'writer': {'123': 0, '124': 1},                     'writer': {0: '123', 1: '124'},
+      'page': [0, 1]      # Mapped integers for pages                'page': {'456': 0, '457': 1}                       'page': {0: '456', 1: '457'}
+       }                                                             }                                                   }
+    """
+    assert rxs is not None, 'no regular expression is set'
+    files_names, file_patches, file_key_points = make_dataset_from_pickle_file(cur_dir)
+
+    if len(files_names) == 0:
+        raise (RuntimeError("Found 0 images data in pickle file"))
+
+    labels, label_to_int, int_to_label = extract_labels_from_patches(files_names, rxs)
+    return files_names, file_patches, file_key_points, labels, label_to_int, int_to_label
 
 
 def pil_loader(path):
@@ -69,13 +147,31 @@ def pil_loader(path):
             return img.convert(mode='L')
 
 
+def pil_loader_from_patch(patch):
+    # If the patch is a NumPy array, convert it to a PIL image
+    if isinstance(patch, np.ndarray):
+        img = Image.fromarray(patch)
+
+    # If the patch is raw bytes, load it using BytesIO
+    elif isinstance(patch, (bytes, bytearray)):
+        img = Image.open(io.BytesIO(patch))
+    else:
+        raise ValueError("Unsupported patch format. Must be NumPy array or bytes.")
+
+    # Standardize the image
+    if len(img.mode) > 1:  # If the image has multiple channels
+        return ImageOps.grayscale(img.convert('RGB'))  # Convert to RGB and then grayscale
+
+    return img.convert(mode='L')  # Convert to grayscale directly if single-channel
+
+
 def svg_string_loader(path):
     with open(path, 'r') as f:
+        logging.info("svg_string_loader")
         return f.read()
 
 
 def get_loader(loader_name):
-
     if loader_name == 'svg_string':
         return svg_string_loader
     else:
@@ -83,7 +179,7 @@ def get_loader(loader_name):
 
 
 class WrapableDataset(data.Dataset):
-
+    # Defines a common interface for working with datasets. It inherits from torch.utils.data.Dataset
     def __len__(self):
         raise NotImplementedError
 
@@ -93,7 +189,7 @@ class WrapableDataset(data.Dataset):
                 'SelectLabels': 'SelectLabels',
                 'TransformImages': 'TransformImages',
                 'Sample': 'Sample',
-                'ClassSampler' : 'ClassSampler'
+                'ClassSampler': 'ClassSampler'
                 }
 
     def _get_wrapper_class_constructor(self, name):
@@ -111,11 +207,12 @@ class WrapableDataset(data.Dataset):
             return self._get_wrapper_class_constructor(attr)
 
     def __getitem__(self, index):
+        #TODO outermost wrapper
         return self.get_image(index), self.get_label(index)
 
 
 class DatasetWrapper(WrapableDataset):
-
+    # Base Wrapper
     def __getattr__(self, attr):
         if attr in self.supported_classes():
             return self._get_wrapper_class_constructor(attr)
@@ -130,6 +227,7 @@ class DatasetWrapper(WrapableDataset):
 
 
 class Sample(DatasetWrapper):
+    # sample a subset of the dataset
     def __init__(self, *args, samples=None, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -162,6 +260,7 @@ class CombineLabels(DatasetWrapper):
 
 
 class SelectLabels(DatasetWrapper):
+    # Allows you to select a subset of labels from the dataset
     def __init__(self, *args, label_names, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -181,8 +280,9 @@ class SelectLabels(DatasetWrapper):
     def __getitem__(self, index):
         return self.dataset.get_image(index), self.get_label(index)
 
+
 class ClassSampler(DatasetWrapper):
-    def __init__(self, *args, label_names,**kwargs):
+    def __init__(self, *args, label_names, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.label_names = label_names if type(label_names) == list else [label_names]
@@ -194,7 +294,7 @@ class ClassSampler(DatasetWrapper):
         self.indices_per_label = []
         print('Extracting subsets for Class Sampler')
         for ix in range(self.unique_labels.shape[0]):
-            label_ids = self.unique_labels[ix] 
+            label_ids = self.unique_labels[ix]
             hits = np.sum(np.equal(self.packed_labels, label_ids), axis=1)
             self.indices_per_label.append(np.where(hits == len(label_ids))[0].tolist())
 
@@ -212,12 +312,13 @@ class ClassSampler(DatasetWrapper):
     def __getitem__(self, index):
         index = self.indices[index]
         return self.dataset.get_image(index), self.get_label(index)
-        
+
+
 class TransformImages(DatasetWrapper):
     def __init__(self, *args, transform, **kwargs):
         super().__init__(*args, **kwargs)
         self.transform = transform
- 
+
     def get_image(self, index):
         img = self.dataset.get_image(index)
         img = img.convert('RGB')
@@ -244,8 +345,12 @@ class ImageFolder(WrapableDataset):
         imgs (list): List of (image path, class_index) tuples
     """
 
-    def __init__(self, path, loader='PIL', regex=None, mean=None, extensions=IMG_EXTENSIONS, data_augmentation=False):
-        logging.info('Loading dataset from {}'.format(path))
+    def __init__(self, dataset_name, dataset_type, path=None, regex=None, mean=None, loader='PIL',
+                 data_augmentation=False):
+        if path is None:
+            logging.info("path parameter is none , inside the ImageFolder __init__")
+            raise Exception
+        logging.info('Loading {} {}dataset from {}'.format(dataset_name, dataset_type, path))
         # classes, class_to_idx = find_classes(root, regex)
         # imgs,classes, regex_to_class, indices = make_dataset(root, regex, id_regex)
 
@@ -253,8 +358,11 @@ class ImageFolder(WrapableDataset):
         # label are pretty independent and the standard implementation does not make much sense
         # however, regex kinda belongs to the image folder dataset since this depends on the filenames and dataset
         # so probably it is fine as it is ...
-        imgs, labels, label_to_int, int_to_label = make_dataset(path, regex, extensions)
 
+        files_names, file_patches, file_key_points, labels, label_to_int, int_to_label = make_dataset(path, regex)
+        self.files_names = files_names
+        self.file_patches = file_patches
+        self.file_key_points = file_key_points
         self.label_to_int = label_to_int
         self.int_to_label = int_to_label
         self.label_names = [name for name, _ in regex.items()]
@@ -262,7 +370,7 @@ class ImageFolder(WrapableDataset):
 
         self.labels = labels
         self.root = path
-        self.imgs = imgs
+        # self.imgs = imgs
         self.loader = get_loader(loader)
         self.regex = regex
         self._mean = mean
@@ -292,10 +400,15 @@ class ImageFolder(WrapableDataset):
         return self._mean
 
     def get_image(self, index):
-        img = self.imgs[index]
-        img = self.loader(img)
+        if not self.file_patches:
+            raise ValueError("file_patches is empty or None.")
 
-        return img 
+        img_filename = self.files_names[index]
+        img_patch = self.file_patches[index]
+        assert img_patch is not None
+        img = pil_loader_from_patch(img_patch)
+        assert img is not None
+        return img
 
     def get_label(self, index):
         label = tuple(self.packed_labels[index])
@@ -306,4 +419,5 @@ class ImageFolder(WrapableDataset):
         return label
 
     def __len__(self):
-        return len(self.imgs)
+        return len(self.files_names)
+        # return len(self.imgs)

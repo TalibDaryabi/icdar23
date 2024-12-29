@@ -7,7 +7,7 @@ testset :
   set: test
 
 
-log_dir: experiments
+log_dir: main_log
 logger : wandb
 train_label : cluster
 
@@ -24,7 +24,7 @@ optimizer_options:
   final_lr: 0.00001
   warmup_epochs : 5
 
-super_fancy_new_name: test_repository
+super_fancy_new_name: train
 
 model :  
     name : resnet56
