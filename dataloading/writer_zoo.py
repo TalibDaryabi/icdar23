@@ -27,10 +27,10 @@ class WriterZoo:
         'icdar2017': {
             'basepath': '/tmp/uc46epev/icdar17_data/ouput_icdar_temp/orginal_script',
             'set': {
-                'test': {'path': "/tmp/uc46epev/icdar17_data/ouput_icdar_temp/my_script/extract_patches_only",
+                'test': {'path': "/tmp/uc46epev/icdar17_data/output_icdar_real_/bin/test",
                          'regex': {'writer': '(\d+)', 'page': '\d+-IMG_MAX_(\d+)'}},
 
-                'train': {'path': "/tmp/uc46epev/icdar17_data/output_icdar_real_/bin/train_1000",
+                'train': {'path': "/tmp/uc46epev/icdar17_data/output_icdar_real_/bin/train_5000",
                           'regex': {'cluster': '(\d+)', 'writer': '\d+_(\d+)', 'page': '\d+_\d+-IMG_MAX_(\d+)_\d+'}},
 
             }

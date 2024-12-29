@@ -13,14 +13,10 @@ from torchvision import transforms
 from pytorch_metric_learning import samplers
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import normalize
-
-from dataloading.transforms import BinaryBlur
 from utils.utils import GPU, seed_everything, load_config, getLogger, save_model, cosine_scheduler
 
 from dataloading.writer_zoo import WriterZoo
 from dataloading.GenericDataset import FilepathImageDataset
-from dataloading.regex import pil_loader
-
 from evaluators.retrieval import Retrieval
 from page_encodings import SumPooling, GMP, MaxPooling, LSEPooling
 
