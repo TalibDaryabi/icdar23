@@ -1,0 +1,4 @@
+2024-12-29 22:51:17,809 - INFO - Found 3600 images
+2024-12-29 22:51:17,809 - INFO - calculating features for images in ['/tmp/uc46epev/icdar17_data/input_icdar_real_/bin/test/ScriptNet-HistoricalWI-2017-binarized'] (number of cores:14)
+2024-12-29 22:58:08,528 - INFO - collecting descriptors
+2024-12-29 23:04:07,586 - INFO - writing config parameters to {}

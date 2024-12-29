@@ -76,7 +76,7 @@ class ResizeAndPad:
                             fill=255)
         return t2(t1(img))
 
-
+# https://github.com/NVlabs/ocrodeg/tree/master
 # 1. Random Geometric Transformations
 class Rotate:
     def __init__(self, angle=0.0):

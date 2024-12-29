@@ -10,8 +10,7 @@ from tqdm import tqdm
 import pickle
 import bz2
 
-from utils.logging_script import setup_logging
-
+from logging_script import setup_logging
 script_name = os.path.basename(__file__)
 print(f"Running script: {script_name}")
 logger = setup_logging(script_name)
