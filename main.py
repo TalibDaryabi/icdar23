@@ -13,6 +13,8 @@ from torchvision import transforms
 from pytorch_metric_learning import samplers
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import normalize
+
+from dataloading.transforms import BinaryBlur
 from utils.utils import GPU, seed_everything, load_config, getLogger, save_model, cosine_scheduler
 
 from dataloading.writer_zoo import WriterZoo
@@ -326,6 +328,9 @@ def prepare_logging(args):
 
 
 def train_val_split(dataset, prop=0.9):
+    # seed it to ensure consistent result across different experiments(Baseline and transformations)
+    random.seed(42)
+
     authors = list(set(dataset.labels['writer']))
     random.shuffle(authors)
     train_len = math.floor(len(authors) * prop)
@@ -382,7 +387,8 @@ def main(args):
         tfs.append(transforms.ToTensor())
 
     # Defining the Erosion() and Dilation() transformer , classes are defined in aug.py file
-    # since default is morph so this will be applied
+    # since default is morph in config, this will take place.
+    # blur_prob = 0.3
     if args.get('data_augmentation', None) == 'morph':
         tfs.extend([transforms.RandomApply(
             [Erosion()],
@@ -391,8 +397,10 @@ def main(args):
             transforms.RandomApply(
                 [Dilation()],
                 p=0.3
-            )])
-
+            ),
+            #TODO new transforms applied by me
+            # transforms.RandomApply([BinaryBlur(blur_radius=2.0, noise=0.1)], p=blur_prob),
+        ])
     transform = transforms.Compose(tfs)
 
     train_dataset = None

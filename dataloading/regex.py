@@ -137,16 +137,6 @@ def make_dataset(cur_dir, rxs):
     return files_names, file_patches, file_key_points, labels, label_to_int, int_to_label
 
 
-def pil_loader(path):
-    # open path as file to avoid ResourceWarning (https://github.com/python-pillow/Pillow/issues/835)
-    with open(path, 'rb') as f:
-        with Image.open(f) as img:
-            if len(img.mode) > 1:
-                return ImageOps.grayscale(img.convert('RGB'))
-
-            return img.convert(mode='L')
-
-
 def pil_loader_from_patch(patch):
     # If the patch is a NumPy array, convert it to a PIL image
     if isinstance(patch, np.ndarray):
@@ -163,19 +153,6 @@ def pil_loader_from_patch(patch):
         return ImageOps.grayscale(img.convert('RGB'))  # Convert to RGB and then grayscale
 
     return img.convert(mode='L')  # Convert to grayscale directly if single-channel
-
-
-def svg_string_loader(path):
-    with open(path, 'r') as f:
-        logging.info("svg_string_loader")
-        return f.read()
-
-
-def get_loader(loader_name):
-    if loader_name == 'svg_string':
-        return svg_string_loader
-    else:
-        return pil_loader
 
 
 class WrapableDataset(data.Dataset):
@@ -327,37 +304,12 @@ class TransformImages(DatasetWrapper):
 
 
 class ImageFolder(WrapableDataset):
-    """A generic data loader where the images are arranged in this way: ::
-
-        root/dog/xxx.png
-        root/dog/xxy.png
-        root/dog/xxz.png
-
-        root/cat/123.png
-        root/cat/nsdf3.png
-        root/cat/asd932_.png
-
-    Args:
-        root (string): Root directory path.
-        loader (callable, optional): A function to load an image given its path.
-
-     Attributes:
-        imgs (list): List of (image path, class_index) tuples
-    """
-
     def __init__(self, dataset_name, dataset_type, path=None, regex=None, mean=None, loader='PIL',
                  data_augmentation=False):
         if path is None:
             logging.info("path parameter is none , inside the ImageFolder __init__")
             raise Exception
         logging.info('Loading {} {}dataset from {}'.format(dataset_name, dataset_type, path))
-        # classes, class_to_idx = find_classes(root, regex)
-        # imgs,classes, regex_to_class, indices = make_dataset(root, regex, id_regex)
-
-        # this should be separated into imagefolderdataset and regexlabeldecorator
-        # label are pretty independent and the standard implementation does not make much sense
-        # however, regex kinda belongs to the image folder dataset since this depends on the filenames and dataset
-        # so probably it is fine as it is ...
 
         files_names, file_patches, file_key_points, labels, label_to_int, int_to_label = make_dataset(path, regex)
         self.files_names = files_names
@@ -370,8 +322,6 @@ class ImageFolder(WrapableDataset):
 
         self.labels = labels
         self.root = path
-        # self.imgs = imgs
-        self.loader = get_loader(loader)
         self.regex = regex
         self._mean = mean
 
@@ -402,8 +352,7 @@ class ImageFolder(WrapableDataset):
     def get_image(self, index):
         if not self.file_patches:
             raise ValueError("file_patches is empty or None.")
-
-        img_filename = self.files_names[index]
+        # img_filename = self.files_names[index]
         img_patch = self.file_patches[index]
         assert img_patch is not None
         img = pil_loader_from_patch(img_patch)
@@ -412,12 +361,9 @@ class ImageFolder(WrapableDataset):
 
     def get_label(self, index):
         label = tuple(self.packed_labels[index])
-
         if len(label) == 1:
             label = label[0]
-
         return label
 
     def __len__(self):
         return len(self.files_names)
-        # return len(self.imgs)
