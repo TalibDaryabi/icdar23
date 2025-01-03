@@ -5,6 +5,7 @@ import torch.nn.functional as F
 
 from backbone.resnets import resnet56
 
+
 class Model(torch.nn.Module):
 
     def __init__(self, backbone=resnet56(), num_clusters=100, dim=64, random=False):
@@ -14,10 +15,11 @@ class Model(torch.nn.Module):
         self.nv = NetVLAD(num_clusters=num_clusters, dim=dim, random=random)
 
     def forward(self, x):
-        emb = self.backbone(x)                      # get residual features
-        emb = emb.unsqueeze(-1).unsqueeze(-1)       # (NxD) -> (NxDx1x1)
-        nv_enc = self.nv(emb)                       # encode features
-        return F.normalize(nv_enc)                  # final normalization
+        emb = self.backbone(x)  # get residual features
+        emb = emb.unsqueeze(-1).unsqueeze(-1)  # (NxD) -> (NxDx1x1)
+        nv_enc = self.nv(emb)  # encode features
+        return F.normalize(nv_enc)  # final normalization
+
 
 class NetVLAD(nn.Module):
     """Net(R)VLAD layer implementation"""
@@ -59,25 +61,25 @@ class NetVLAD(nn.Module):
 
         if not self.random:
             x = F.normalize(x, p=2, dim=1)  # across descriptor dim
-        
+
         # soft-assignment
         soft_assign = self.conv(x).view(N, self.num_clusters, -1)
         soft_assign = F.softmax(soft_assign, dim=1)
 
         # x = self.pool(x)
         x_flatten = x.view(N, C, -1)
-        
+
         # calculate residuals to each clusters
         residual = x_flatten.expand(self.num_clusters, -1, -1, -1).permute(1, 0, 2, 3) - \
-            self.centroids.expand(x_flatten.size(-1), -1, -1).permute(1, 2, 0).unsqueeze(0)
-        
+                   self.centroids.expand(x_flatten.size(-1), -1, -1).permute(1, 2, 0).unsqueeze(0)
+
         residual *= soft_assign.unsqueeze(2)
 
         vlad = residual.sum(dim=-1)
 
         if not self.random:
             vlad = F.normalize(vlad, p=2, dim=2)  # intra-normalization
-        
+
         vlad = vlad.view(x.size(0), -1)  # flatten
 
         if not self.random:

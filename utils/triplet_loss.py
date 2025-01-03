@@ -1,6 +1,6 @@
-
 import torch
 from torch import nn
+
 
 class TripletLoss(nn.Module):
     def __init__(self, margin=0.1, **kwargs):
@@ -54,8 +54,9 @@ class TripletLoss(nn.Module):
         loss = sum(loss) / n
         return loss
 
+
 if __name__ == '__main__':
-    labels = torch.concat([torch.arange(0,10) for i in range(10)]).cuda()
-    x = torch.rand(100,128).cuda()
+    labels = torch.concat([torch.arange(0, 10) for i in range(10)]).cuda()
+    x = torch.rand(100, 128).cuda()
     loss = TripletLoss()
     print(loss(x, labels, x, labels))

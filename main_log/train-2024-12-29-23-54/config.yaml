@@ -1,0 +1,41 @@
+checkpoint: null
+config: config/icdar2017.yml
+data_augmentation: morph
+eval_options:
+  gmp_alpha: 100
+  pca_dim: 400
+gpuid: '0'
+grayscale: false
+log_dir: main_log
+logger: wandb
+model:
+  encoding: netrvlad
+  name: resnet56
+  num_clusters: 100
+no_cuda: false
+only_test: false
+optimizer_options:
+  base_lr: 0.0001
+  final_lr: 1.0e-05
+  optimizer: adam
+  warmup_epochs: 5
+  wd: 0
+seed: 2174
+super_fancy_new_name: train
+test_batch_size: 512
+testset:
+  dataset: icdar2017
+  set: test
+train_label: cluster
+train_options:
+  batch_size: 1024
+  callback: early_stopping
+  callback_patience: 5
+  epochs: 30
+  length_before_new_iter: 512000
+  loss: triplet
+  margin: 0.1
+  sampler_m: 16
+trainset:
+  dataset: icdar2017
+  set: train

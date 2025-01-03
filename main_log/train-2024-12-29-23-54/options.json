@@ -1,0 +1,50 @@
+{
+    "config": "config/icdar2017.yml",
+    "only_test": false,
+    "checkpoint": null,
+    "no_cuda": false,
+    "gpuid": "0",
+    "seed": 2174,
+    "trainset": {
+        "dataset": "icdar2017",
+        "set": "train"
+    },
+    "testset": {
+        "dataset": "icdar2017",
+        "set": "test"
+    },
+    "log_dir": "main_log",
+    "logger": "wandb",
+    "train_label": "cluster",
+    "grayscale": false,
+    "data_augmentation": "morph",
+    "optimizer_options": {
+        "optimizer": "adam",
+        "base_lr": 0.0001,
+        "wd": 0,
+        "final_lr": 1e-05,
+        "warmup_epochs": 5
+    },
+    "super_fancy_new_name": "train",
+    "model": {
+        "name": "resnet56",
+        "num_clusters": 100,
+        "encoding": "netrvlad"
+    },
+    "train_options": {
+        "epochs": 30,
+        "batch_size": 1024,
+        "callback": "early_stopping",
+        "callback_patience": 5,
+        "loss": "triplet",
+        "margin": 0.1,
+        "sampler_m": 16,
+        "length_before_new_iter": 512000
+    },
+    "eval_options": {
+        "pca_dim": 400,
+        "gmp_alpha": 100
+    },
+    "test_batch_size": 512,
+    "hash": "89d31d600eea779f57759a40a1d8ae1189c79e44"
+}

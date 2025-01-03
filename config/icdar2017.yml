@@ -28,7 +28,7 @@ super_fancy_new_name: train
 
 model :  
     name : resnet56
-    num_clusters : 100
+    num_clusters : 100   #
     encoding : netrvlad
 
 train_options: 

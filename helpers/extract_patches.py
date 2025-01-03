@@ -10,8 +10,10 @@ import sklearn.preprocessing
 from tqdm import tqdm
 import bz2
 import pickle
+from sklearn.decomposition import PCA
 
 from logging_script import setup_logging
+
 script_name = os.path.basename(__file__)
 print(f"Running script: {script_name}")
 logger = setup_logging(script_name)
@@ -117,7 +119,7 @@ def calc_features(input_img, arguments):
     # img_gray is the image of shape (height, width) and new_kp is the list of key_points
     # it returns a tuple of (key_points, descriptors)
     _, desc = sift.compute(img_gray, new_kp)
-
+    # TODO STEP 1.1: descriptors are normalized with the Hellinger kernel (elementwise square root followed by l1-normalization)
     desc = sklearn.preprocessing.normalize(desc, norm='l1')
     desc = np.sign(desc) * np.sqrt(np.abs(desc))
     desc = sklearn.preprocessing.normalize(desc, norm='l2')
@@ -244,6 +246,7 @@ if __name__ == "__main__":
     logger.info('calculating features for images in %s (number of cores:%d)' % (args.in_dir, num_cores))
     results = []
     # it sends the file path to calculate the features of the image
+    # TODO Step 1: detect keypoint and corresponding descriptors.
     results = Parallel(n_jobs=num_cores, verbose=9)(delayed(calc_features)(f, args) for f in files)
 
     logger.info('collecting descriptors')
@@ -263,10 +266,9 @@ if __name__ == "__main__":
     results = None
 
     logger.info('calculating pca (number of patches: {})'.format(len(desc_list)))
-    from sklearn.decomposition import PCA
 
+    # TODO STEP 2: dimensionality reduction via PCA from 128 to 32
     pca = PCA(32, whiten=True)
-
     desc = pca.fit_transform(np.array(desc_list))
     desc_list = None
 
@@ -277,6 +279,7 @@ if __name__ == "__main__":
     import sklearn.cluster
 
     # creating the kmeans object
+    # TODO STEP 3 #: cluster the descriptors via k-means in 5000 clusters
     kmeans = sklearn.cluster.MiniBatchKMeans(n_clusters=args.number_of_clusters, compute_labels=False,
                                              batch_size=10000 if args.number_of_clusters <= 1000 else 50000)
 
@@ -302,7 +305,9 @@ if __name__ == "__main__":
 
         dist = kmeans.transform(batch(desc))
         prediction = kmeans.predict(batch(desc))
-
+        #TODO STEP 3.1 # we filter keypoints whose descriptors 'd' violate ||d-m1||/||d-m2|| >0.9
+        # it filter key points that lay near the border of two different clusters - those
+        # are therefore considered to be ambiguous
         dist = np.sort(dist)
         ratio = dist[:, 0] / dist[:, 1]
 
@@ -317,15 +322,17 @@ if __name__ == "__main__":
     logger.info('copying %i (all patches per page) image patches to %s ' % (feature_count, args.out_dir[0]))
     #tup is list of tuples of [((x,y), cluster_label),....]
     #this function extracts the patches from the image and saves them to the output directory
+
+    # TODO STEP 4 #The 32 × 32 patch is extracted at the keypoint location
     patches_results = Parallel(n_jobs=num_cores, verbose=9)(
         delayed(extract_patches)(filename, tup, args) for filename, tup in patches_files.items())
 
     # print(f"type of results {type(patches_results)}")
     # print(f"len(results) = {len(patches_results)}")
     # Global dictionary to hold consolidated patches by cluster
+
     all_clusters = defaultdict(list)
     # Consolidate patches from all images into the global cluster dictionary
-
     for image_patches in patches_results:
         for cluster_id, patches in image_patches.items():
             all_clusters[cluster_id].extend(patches)

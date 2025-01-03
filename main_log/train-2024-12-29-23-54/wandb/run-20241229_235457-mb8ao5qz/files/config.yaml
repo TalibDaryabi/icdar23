@@ -1,0 +1,97 @@
+_wandb:
+    value:
+        cli_version: 0.19.1
+        m: []
+        python_version: 3.11.2
+        t:
+            "1":
+                - 1
+                - 5
+                - 41
+                - 53
+                - 55
+                - 79
+            "2":
+                - 1
+                - 5
+                - 41
+                - 53
+                - 55
+                - 79
+            "3":
+                - 13
+                - 16
+                - 23
+                - 55
+            "4": 3.11.2
+            "5": 0.19.1
+            "8":
+                - 5
+            "12": 0.19.1
+            "13": linux-x86_64
+checkpoint:
+    value: null
+checkpoint_dir:
+    value: /media/usb/icdar/icdar23/main_log/train-2024-12-29-23-54
+config:
+    value: config/icdar2017.yml
+data_augmentation:
+    value: morph
+eval_options:
+    value:
+        gmp_alpha: 100
+        pca_dim: 400
+gpuid:
+    value: "0"
+grayscale:
+    value: false
+hash:
+    value: 89d31d600eea779f57759a40a1d8ae1189c79e44
+log_dir:
+    value: main_log
+logger:
+    value: wandb
+model:
+    value:
+        encoding: netrvlad
+        name: resnet56
+        num_clusters: 100
+no_cuda:
+    value: false
+only_test:
+    value: false
+optimizer_options:
+    value:
+        base_lr: 0.0001
+        final_lr: 1e-05
+        optimizer: adam
+        warmup_epochs: 5
+        wd: 0
+seed:
+    value: 2174
+super_fancy_new_name:
+    value: train
+test_batch_size:
+    value: 512
+testset:
+    value:
+        dataset: icdar2017
+        set: test
+train_label:
+    value: cluster
+train_options:
+    value:
+        batch_size: 1024
+        callback: early_stopping
+        callback_patience: 5
+        epochs: 30
+        length_before_new_iter: 512000
+        loss: triplet
+        margin: 0.1
+        sampler_m: 16
+trainset:
+    value:
+        dataset: icdar2017
+        set: train
+yaml:
+    value: /media/usb/icdar/icdar23/main_log/train-2024-12-29-23-54/config.yaml

@@ -1,0 +1,42 @@
+{
+  "os":  "Linux-6.1.121-1-cip-amd64-x86_64-with-glibc2.36",
+  "python":  "CPython 3.11.2",
+  "startedAt":  "2024-12-29T22:54:57.432821Z",
+  "program":  "/media/usb/icdar/icdar23/main.py",
+  "codePath":  "main.py",
+  "git":  {
+    "remote":  "git@github.com:TalibDaryabi/icdar23.git",
+    "commit":  "d1a5b76309b18fd7430ee79361db6dd636fbd7df"
+  },
+  "email":  "talib.daryabi@fau.de",
+  "root":  "main_log/train-2024-12-29-23-54",
+  "host":  "cip7f0",
+  "executable":  "/tmp/uc46epev/envs/icd/bin/python",
+  "codePathLocal":  "main.py",
+  "cpu_count":  12,
+  "cpu_count_logical":  20,
+  "gpu":  "NVIDIA GeForce RTX 3070",
+  "gpu_count":  1,
+  "disk":  {
+    "/":  {
+      "total":  "502716604416",
+      "used":  "97448177664"
+    }
+  },
+  "memory":  {
+    "total":  "67100561408"
+  },
+  "cpu":  {
+    "count":  12,
+    "countLogical":  20
+  },
+  "gpu_nvidia":  [
+    {
+      "name":  "NVIDIA GeForce RTX 3070",
+      "memoryTotal":  "8589934592",
+      "cudaCores":  5888,
+      "architecture":  "Ampere"
+    }
+  ],
+  "cudaVersion":  "12.2"
+}

@@ -1,0 +1,10 @@
+2024-12-29 23:25:32,975 - INFO - Found 1182 images
+2024-12-29 23:25:32,976 - INFO - calculating features for images in ['/tmp/uc46epev/icdar17_data/input_icdar_real_/bin/train/icdar2017-training-binary'] (number of cores:10)
+2024-12-29 23:27:43,461 - INFO - collecting descriptors
+2024-12-29 23:27:43,788 - INFO - calculating pca (number of patches: 2580423)
+2024-12-29 23:27:46,314 - INFO - calculating new centers (shape: (2580423, 32))
+2024-12-29 23:27:46,315 - INFO - starting KMeans (centers: 5000)
+2024-12-29 23:28:48,408 - INFO - saving centers to /tmp/uc46epev/icdar17_data/output_icdar_real_/bin/train_5000/centers.pkl
+2024-12-29 23:31:03,746 - INFO - copying 607592 (all patches per page) image patches to /tmp/uc46epev/icdar17_data/output_icdar_real_/bin/train_5000 
+2024-12-29 23:31:24,686 - INFO - writing config parameters to /tmp/uc46epev/icdar17_data/output_icdar_real_/bin/train_5000/db-creation-parameters.json
+2024-12-29 23:31:24,687 - INFO - done

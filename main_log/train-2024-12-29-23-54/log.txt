@@ -1,0 +1,63 @@
+2024-12-29 23:54:56,869 INFO writing config file to: /media/usb/icdar/icdar23/main_log/train-2024-12-29-23-54/config.yaml  
+2024-12-29 23:54:57,964 INFO Loading icdar2017 traindataset from /tmp/uc46epev/icdar17_data/output_icdar_real_/bin/train_5000 
+2024-12-29 23:55:16,684 INFO building up NN-Classifier 
+2024-12-29 23:55:16,685 INFO KNN fitting data ((120, 6400) features) 
+2024-12-29 23:55:16,686 INFO using euclidean distance 
+2024-12-30 00:00:28,266 INFO building up NN-Classifier 
+2024-12-30 00:00:28,266 INFO KNN fitting data ((120, 6400) features) 
+2024-12-30 00:00:28,267 INFO using euclidean distance 
+2024-12-30 00:05:39,079 INFO building up NN-Classifier 
+2024-12-30 00:05:39,079 INFO KNN fitting data ((120, 6400) features) 
+2024-12-30 00:05:39,080 INFO using euclidean distance 
+2024-12-30 00:10:50,102 INFO building up NN-Classifier 
+2024-12-30 00:10:50,102 INFO KNN fitting data ((120, 6400) features) 
+2024-12-30 00:10:50,103 INFO using euclidean distance 
+2024-12-30 00:16:00,034 INFO building up NN-Classifier 
+2024-12-30 00:16:00,034 INFO KNN fitting data ((120, 6400) features) 
+2024-12-30 00:16:00,035 INFO using euclidean distance 
+2024-12-30 00:21:09,500 INFO building up NN-Classifier 
+2024-12-30 00:21:09,501 INFO KNN fitting data ((120, 6400) features) 
+2024-12-30 00:21:09,501 INFO using euclidean distance 
+2024-12-30 00:26:18,218 INFO building up NN-Classifier 
+2024-12-30 00:26:18,218 INFO KNN fitting data ((120, 6400) features) 
+2024-12-30 00:26:18,219 INFO using euclidean distance 
+2024-12-30 00:31:28,119 INFO building up NN-Classifier 
+2024-12-30 00:31:28,120 INFO KNN fitting data ((120, 6400) features) 
+2024-12-30 00:31:28,120 INFO using euclidean distance 
+2024-12-30 00:36:36,555 INFO building up NN-Classifier 
+2024-12-30 00:36:36,555 INFO KNN fitting data ((120, 6400) features) 
+2024-12-30 00:36:36,556 INFO using euclidean distance 
+2024-12-30 00:41:44,995 INFO building up NN-Classifier 
+2024-12-30 00:41:44,996 INFO KNN fitting data ((120, 6400) features) 
+2024-12-30 00:41:44,996 INFO using euclidean distance 
+2024-12-30 00:46:53,295 INFO building up NN-Classifier 
+2024-12-30 00:46:53,296 INFO KNN fitting data ((120, 6400) features) 
+2024-12-30 00:46:53,296 INFO using euclidean distance 
+2024-12-30 00:52:02,064 INFO building up NN-Classifier 
+2024-12-30 00:52:02,065 INFO KNN fitting data ((120, 6400) features) 
+2024-12-30 00:52:02,065 INFO using euclidean distance 
+2024-12-30 00:57:10,422 INFO building up NN-Classifier 
+2024-12-30 00:57:10,423 INFO KNN fitting data ((120, 6400) features) 
+2024-12-30 00:57:10,423 INFO using euclidean distance 
+2024-12-30 01:02:19,236 INFO building up NN-Classifier 
+2024-12-30 01:02:19,236 INFO KNN fitting data ((120, 6400) features) 
+2024-12-30 01:02:19,237 INFO using euclidean distance 
+2024-12-30 01:07:28,166 INFO building up NN-Classifier 
+2024-12-30 01:07:28,167 INFO KNN fitting data ((120, 6400) features) 
+2024-12-30 01:07:28,168 INFO using euclidean distance 
+2024-12-30 01:12:36,718 INFO building up NN-Classifier 
+2024-12-30 01:12:36,719 INFO KNN fitting data ((120, 6400) features) 
+2024-12-30 01:12:36,720 INFO using euclidean distance 
+2024-12-30 01:17:45,202 INFO building up NN-Classifier 
+2024-12-30 01:17:45,202 INFO KNN fitting data ((120, 6400) features) 
+2024-12-30 01:17:45,203 INFO using euclidean distance 
+2024-12-30 01:22:54,059 INFO building up NN-Classifier 
+2024-12-30 01:22:54,059 INFO KNN fitting data ((120, 6400) features) 
+2024-12-30 01:22:54,060 INFO using euclidean distance 
+2024-12-30 01:28:02,491 INFO building up NN-Classifier 
+2024-12-30 01:28:02,491 INFO KNN fitting data ((120, 6400) features) 
+2024-12-30 01:28:02,492 INFO using euclidean distance 
+2024-12-30 01:33:11,070 INFO building up NN-Classifier 
+2024-12-30 01:33:11,070 INFO KNN fitting data ((120, 6400) features) 
+2024-12-30 01:33:11,071 INFO using euclidean distance 
+2024-12-30 01:33:11,277 INFO Found 0 images 

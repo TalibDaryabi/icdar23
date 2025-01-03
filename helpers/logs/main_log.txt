@@ -1,0 +1,49 @@
+----------
+Using <class 'backbone.resnets.ResNet'> as backbone
+Using netrvlad as encoding.
+----------
+354 authors for training - 40 authors for validation
+Inference done
+Val-mAP: 0.16428758711289176
+Using Triplet Loss
+Inference done
+Val-mAP: 0.5295801266213637
+Inference done
+Val-mAP: 0.5657217858099304
+Inference done
+Val-mAP: 0.582354894877257
+Inference done
+Val-mAP: 0.6104161428888908
+Inference done
+Val-mAP: 0.6316381532254608
+Inference done
+Val-mAP: 0.651462160992999
+Inference done
+Val-mAP: 0.6723908468803156
+Inference done
+Val-mAP: 0.6763661507543982
+Inference done
+Val-mAP: 0.6806215809360914
+Inference done
+Val-mAP: 0.6818989085591454
+Inference done
+Val-mAP: 0.683745121537926
+Inference done
+Val-mAP: 0.6829608461571742
+Inference done
+Val-mAP: 0.6879585328470212
+Inference done
+Val-mAP: 0.6812383873409147
+Inference done
+Val-mAP: 0.673576371586051
+Inference done
+Val-mAP: 0.6811858972086092
+Inference done
+Val-mAP: 0.6844469958135543
+Inference done
+Val-mAP: 0.6799320449590383
+Inference done
+Val-mAP: 0.6753456729900492
+Loading model from Epoch 12
+Found 0 pages.
+[1;34mwandb[0m: 🚀 View run [33mtrain[0m at: [34mhttps://wandb.ai/talibdaryabi-fau/icdar23/runs/mb8ao5qz[0m

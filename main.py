@@ -13,6 +13,7 @@ from torchvision import transforms
 from pytorch_metric_learning import samplers
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import normalize
+
 from utils.utils import GPU, seed_everything, load_config, getLogger, save_model, cosine_scheduler
 
 from dataloading.writer_zoo import WriterZoo
@@ -29,6 +30,11 @@ from backbone.model import Model
 import torch.multiprocessing
 
 torch.multiprocessing.set_sharing_strategy('file_system')
+from helpers.logging_script import setup_logging
+
+script_name = os.path.basename(__file__)
+print(f"Running script: {script_name}")
+logger = setup_logging(script_name)
 
 
 def compute_page_features(_features, writer, pages):
@@ -324,9 +330,6 @@ def prepare_logging(args):
 
 
 def train_val_split(dataset, prop=0.9):
-    # seed it to ensure consistent result across different experiments(Baseline and transformations)
-    random.seed(42)
-
     authors = list(set(dataset.labels['writer']))
     random.shuffle(authors)
     train_len = math.floor(len(authors) * prop)
@@ -453,6 +456,11 @@ if __name__ == '__main__':
                         help='enables CUDA training')
     parser.add_argument('--gpuid', default='0', type=str,
                         help='id(s) for CUDA_VISIBLE_DEVICES')
+
+    # TODO change the seed for each training.
+    """All of our results on the trained networks are averages of three runs with the
+        same hyperparameters but different seeds to reduce the effect of outliers due to
+            initialization or validation split """
     parser.add_argument('--seed', default=2174, type=int,
                         help='seed')
 

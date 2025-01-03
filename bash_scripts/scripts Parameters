@@ -16,13 +16,13 @@
 
 #extract_patches
 
---in_dir "/tmp/uc46epev/icdar17_data/input_icdar_temp/binarized/train"
---out_dir "/tmp/uc46epev/icdar17_data/ouput_icdar_temp/orginal_script/extract_patches"
---num_of_clusters 50
+--in_dir "/tmp/uc46epev/icdar17_data/input_icdar_real_/bin/train/icdar2017-training-binary"
+--out_dir "/tmp/uc46epev/icdar17_data/output_icdar_real_/bin/train_5000"
+--num_of_clusters 5000
 --sigma 2.5
 --white_pixel_thresh 0.98
 --scale -1
---patches_per_page 50
+--patches_per_page -1
 --black_pixel_thresh -1
 
 #extract_patches_only
@@ -33,6 +33,15 @@
 --sigma 2.5
 --black_pixel_thresh -1
 --white_pixel_thresh 0.95
+
+--in_dir "/tmp/uc46epev/icdar17_data/input_icdar_real_/bin/train/icdar2017-training-binary"
+--out_dir "/tmp/uc46epev/icdar17_data/output_icdar_real_/bin/train_5000"
+--patches_per_page -1
+NUM_CLUSTER=5000
+BLACK_PIXEL_THRESH=-1
+WHITE_PIXEL_THRESH=0.95
+CENTERED=True
+SIGMA=2.5
 
 
 # Paths to input and output directories

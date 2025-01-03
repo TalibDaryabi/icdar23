@@ -1,0 +1,227 @@
+----------
+Using <class 'backbone.resnets.ResNet'> as backbone
+Using netrvlad as encoding.
+----------
+INFO:root:Loading icdar2017 traindataset from /tmp/uc46epev/icdar17_data/output_icdar_real_/bin/train_5000
+Extracting Labels: 100%|██████████| 607592/607592 [00:00<00:00, 649134.03it/s]
+354 authors for training - 40 authors for validation
+Splitting dataset: 100%|██████████| 607592/607592 [00:02<00:00, 219218.97it/s]
+Inference: 100%|██████████| 131/131 [00:05<00:00, 23.09it/s]
+Inference done
+Page Features: 100%|██████████| 120/120 [00:00<00:00, 808.62it/s]
+INFO:root:building up NN-Classifier
+INFO:root:KNN fitting data ((120, 6400) features)
+INFO:root:using euclidean distance
+Val-mAP: 0.16428758711289176
+Using Triplet Loss
+/tmp/uc46epev/envs/icd/lib/python3.11/site-packages/torch/utils/data/dataloader.py:617: UserWarning: This DataLoader will create 32 worker processes in total. Our suggested max number of worker in current system is 20, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+Epoch 0 Training: 100%|██████████| 468/468 [05:04<00:00,  1.53it/s]
+Inference: 100%|██████████| 131/131 [00:05<00:00, 25.67it/s]
+Inference done
+Page Features: 100%|██████████| 120/120 [00:00<00:00, 778.74it/s]
+INFO:root:building up NN-Classifier
+INFO:root:KNN fitting data ((120, 6400) features)
+INFO:root:using euclidean distance
+Val-mAP: 0.5295801266213637
+/tmp/uc46epev/envs/icd/lib/python3.11/site-packages/torch/utils/data/dataloader.py:617: UserWarning: This DataLoader will create 32 worker processes in total. Our suggested max number of worker in current system is 20, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+Epoch 1 Training: 100%|██████████| 468/468 [05:04<00:00,  1.54it/s]
+Inference: 100%|██████████| 131/131 [00:05<00:00, 25.40it/s]
+Inference done
+Page Features: 100%|██████████| 120/120 [00:00<00:00, 784.40it/s]
+INFO:root:building up NN-Classifier
+INFO:root:KNN fitting data ((120, 6400) features)
+INFO:root:using euclidean distance
+Val-mAP: 0.5657217858099304
+/tmp/uc46epev/envs/icd/lib/python3.11/site-packages/torch/utils/data/dataloader.py:617: UserWarning: This DataLoader will create 32 worker processes in total. Our suggested max number of worker in current system is 20, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+Epoch 2 Training: 100%|██████████| 468/468 [05:04<00:00,  1.54it/s]
+Inference: 100%|██████████| 131/131 [00:05<00:00, 25.74it/s]
+Inference done
+Page Features: 100%|██████████| 120/120 [00:00<00:00, 771.86it/s]
+INFO:root:building up NN-Classifier
+INFO:root:KNN fitting data ((120, 6400) features)
+INFO:root:using euclidean distance
+Val-mAP: 0.582354894877257
+/tmp/uc46epev/envs/icd/lib/python3.11/site-packages/torch/utils/data/dataloader.py:617: UserWarning: This DataLoader will create 32 worker processes in total. Our suggested max number of worker in current system is 20, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+Epoch 3 Training: 100%|██████████| 468/468 [05:03<00:00,  1.54it/s]
+Inference: 100%|██████████| 131/131 [00:05<00:00, 25.77it/s]
+Inference done
+Page Features: 100%|██████████| 120/120 [00:00<00:00, 781.78it/s]
+INFO:root:building up NN-Classifier
+INFO:root:KNN fitting data ((120, 6400) features)
+INFO:root:using euclidean distance
+Val-mAP: 0.6104161428888908
+/tmp/uc46epev/envs/icd/lib/python3.11/site-packages/torch/utils/data/dataloader.py:617: UserWarning: This DataLoader will create 32 worker processes in total. Our suggested max number of worker in current system is 20, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+Epoch 4 Training: 100%|██████████| 468/468 [05:02<00:00,  1.55it/s]
+Inference: 100%|██████████| 131/131 [00:05<00:00, 25.81it/s]
+Inference done
+Page Features: 100%|██████████| 120/120 [00:00<00:00, 763.00it/s]
+INFO:root:building up NN-Classifier
+INFO:root:KNN fitting data ((120, 6400) features)
+INFO:root:using euclidean distance
+Val-mAP: 0.6316381532254608
+/tmp/uc46epev/envs/icd/lib/python3.11/site-packages/torch/utils/data/dataloader.py:617: UserWarning: This DataLoader will create 32 worker processes in total. Our suggested max number of worker in current system is 20, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+Epoch 5 Training: 100%|██████████| 468/468 [05:02<00:00,  1.55it/s]
+Inference: 100%|██████████| 131/131 [00:05<00:00, 25.24it/s]
+Inference done
+Page Features: 100%|██████████| 120/120 [00:00<00:00, 791.95it/s]
+INFO:root:building up NN-Classifier
+INFO:root:KNN fitting data ((120, 6400) features)
+INFO:root:using euclidean distance
+Val-mAP: 0.651462160992999
+/tmp/uc46epev/envs/icd/lib/python3.11/site-packages/torch/utils/data/dataloader.py:617: UserWarning: This DataLoader will create 32 worker processes in total. Our suggested max number of worker in current system is 20, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+Epoch 6 Training: 100%|██████████| 468/468 [05:03<00:00,  1.54it/s]
+Inference: 100%|██████████| 131/131 [00:05<00:00, 25.72it/s]
+Inference done
+Page Features: 100%|██████████| 120/120 [00:00<00:00, 787.18it/s]
+INFO:root:building up NN-Classifier
+INFO:root:KNN fitting data ((120, 6400) features)
+INFO:root:using euclidean distance
+Val-mAP: 0.6723908468803156
+/tmp/uc46epev/envs/icd/lib/python3.11/site-packages/torch/utils/data/dataloader.py:617: UserWarning: This DataLoader will create 32 worker processes in total. Our suggested max number of worker in current system is 20, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+Epoch 7 Training: 100%|██████████| 468/468 [05:01<00:00,  1.55it/s]
+Inference: 100%|██████████| 131/131 [00:05<00:00, 25.63it/s]
+Inference done
+Page Features: 100%|██████████| 120/120 [00:00<00:00, 778.29it/s]
+INFO:root:building up NN-Classifier
+INFO:root:KNN fitting data ((120, 6400) features)
+INFO:root:using euclidean distance
+Val-mAP: 0.6763661507543982
+/tmp/uc46epev/envs/icd/lib/python3.11/site-packages/torch/utils/data/dataloader.py:617: UserWarning: This DataLoader will create 32 worker processes in total. Our suggested max number of worker in current system is 20, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+Epoch 8 Training: 100%|██████████| 468/468 [05:01<00:00,  1.55it/s]
+Inference: 100%|██████████| 131/131 [00:05<00:00, 25.82it/s]
+Inference done
+Page Features: 100%|██████████| 120/120 [00:00<00:00, 793.82it/s]
+INFO:root:building up NN-Classifier
+INFO:root:KNN fitting data ((120, 6400) features)
+INFO:root:using euclidean distance
+Val-mAP: 0.6806215809360914
+/tmp/uc46epev/envs/icd/lib/python3.11/site-packages/torch/utils/data/dataloader.py:617: UserWarning: This DataLoader will create 32 worker processes in total. Our suggested max number of worker in current system is 20, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+Epoch 9 Training: 100%|██████████| 468/468 [05:01<00:00,  1.55it/s]
+Inference: 100%|██████████| 131/131 [00:05<00:00, 25.62it/s]
+Inference done
+Page Features: 100%|██████████| 120/120 [00:00<00:00, 789.79it/s]
+INFO:root:building up NN-Classifier
+INFO:root:KNN fitting data ((120, 6400) features)
+INFO:root:using euclidean distance
+Val-mAP: 0.6818989085591454
+/tmp/uc46epev/envs/icd/lib/python3.11/site-packages/torch/utils/data/dataloader.py:617: UserWarning: This DataLoader will create 32 worker processes in total. Our suggested max number of worker in current system is 20, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+Epoch 10 Training: 100%|██████████| 468/468 [05:02<00:00,  1.55it/s]
+Inference: 100%|██████████| 131/131 [00:05<00:00, 25.32it/s]
+Inference done
+Page Features: 100%|██████████| 120/120 [00:00<00:00, 776.49it/s]
+INFO:root:building up NN-Classifier
+INFO:root:KNN fitting data ((120, 6400) features)
+INFO:root:using euclidean distance
+Val-mAP: 0.683745121537926
+/tmp/uc46epev/envs/icd/lib/python3.11/site-packages/torch/utils/data/dataloader.py:617: UserWarning: This DataLoader will create 32 worker processes in total. Our suggested max number of worker in current system is 20, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+Epoch 11 Training: 100%|██████████| 468/468 [05:01<00:00,  1.55it/s]
+Inference: 100%|██████████| 131/131 [00:05<00:00, 25.55it/s]
+Inference done
+Page Features: 100%|██████████| 120/120 [00:00<00:00, 793.70it/s]
+INFO:root:building up NN-Classifier
+INFO:root:KNN fitting data ((120, 6400) features)
+INFO:root:using euclidean distance
+Val-mAP: 0.6829608461571742
+/tmp/uc46epev/envs/icd/lib/python3.11/site-packages/torch/utils/data/dataloader.py:617: UserWarning: This DataLoader will create 32 worker processes in total. Our suggested max number of worker in current system is 20, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+Epoch 12 Training: 100%|██████████| 468/468 [05:02<00:00,  1.55it/s]
+Inference: 100%|██████████| 131/131 [00:05<00:00, 25.56it/s]
+Inference done
+Page Features: 100%|██████████| 120/120 [00:00<00:00, 792.33it/s]
+INFO:root:building up NN-Classifier
+INFO:root:KNN fitting data ((120, 6400) features)
+INFO:root:using euclidean distance
+Val-mAP: 0.6879585328470212
+/tmp/uc46epev/envs/icd/lib/python3.11/site-packages/torch/utils/data/dataloader.py:617: UserWarning: This DataLoader will create 32 worker processes in total. Our suggested max number of worker in current system is 20, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+Epoch 13 Training: 100%|██████████| 468/468 [05:02<00:00,  1.55it/s]
+Inference: 100%|██████████| 131/131 [00:05<00:00, 25.19it/s]
+Inference done
+Page Features: 100%|██████████| 120/120 [00:00<00:00, 788.47it/s]
+INFO:root:building up NN-Classifier
+INFO:root:KNN fitting data ((120, 6400) features)
+INFO:root:using euclidean distance
+Val-mAP: 0.6812383873409147
+/tmp/uc46epev/envs/icd/lib/python3.11/site-packages/torch/utils/data/dataloader.py:617: UserWarning: This DataLoader will create 32 worker processes in total. Our suggested max number of worker in current system is 20, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+Epoch 14 Training: 100%|██████████| 468/468 [05:01<00:00,  1.55it/s]
+Inference: 100%|██████████| 131/131 [00:05<00:00, 25.63it/s]
+Inference done
+Page Features: 100%|██████████| 120/120 [00:00<00:00, 793.15it/s]
+INFO:root:building up NN-Classifier
+INFO:root:KNN fitting data ((120, 6400) features)
+INFO:root:using euclidean distance
+Val-mAP: 0.673576371586051
+/tmp/uc46epev/envs/icd/lib/python3.11/site-packages/torch/utils/data/dataloader.py:617: UserWarning: This DataLoader will create 32 worker processes in total. Our suggested max number of worker in current system is 20, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+Epoch 15 Training: 100%|██████████| 468/468 [05:01<00:00,  1.55it/s]
+Inference: 100%|██████████| 131/131 [00:05<00:00, 25.43it/s]
+Inference done
+Page Features: 100%|██████████| 120/120 [00:00<00:00, 802.84it/s]
+INFO:root:building up NN-Classifier
+INFO:root:KNN fitting data ((120, 6400) features)
+INFO:root:using euclidean distance
+Val-mAP: 0.6811858972086092
+/tmp/uc46epev/envs/icd/lib/python3.11/site-packages/torch/utils/data/dataloader.py:617: UserWarning: This DataLoader will create 32 worker processes in total. Our suggested max number of worker in current system is 20, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+Epoch 16 Training: 100%|██████████| 468/468 [05:02<00:00,  1.55it/s]
+Inference: 100%|██████████| 131/131 [00:05<00:00, 25.33it/s]
+Inference done
+Page Features: 100%|██████████| 120/120 [00:00<00:00, 787.69it/s]
+INFO:root:building up NN-Classifier
+INFO:root:KNN fitting data ((120, 6400) features)
+INFO:root:using euclidean distance
+Val-mAP: 0.6844469958135543
+/tmp/uc46epev/envs/icd/lib/python3.11/site-packages/torch/utils/data/dataloader.py:617: UserWarning: This DataLoader will create 32 worker processes in total. Our suggested max number of worker in current system is 20, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+Epoch 17 Training: 100%|██████████| 468/468 [05:01<00:00,  1.55it/s]
+Inference: 100%|██████████| 131/131 [00:05<00:00, 25.57it/s]
+Inference done
+Page Features: 100%|██████████| 120/120 [00:00<00:00, 799.98it/s]
+INFO:root:building up NN-Classifier
+INFO:root:KNN fitting data ((120, 6400) features)
+INFO:root:using euclidean distance
+Val-mAP: 0.6799320449590383
+/tmp/uc46epev/envs/icd/lib/python3.11/site-packages/torch/utils/data/dataloader.py:617: UserWarning: This DataLoader will create 32 worker processes in total. Our suggested max number of worker in current system is 20, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(
+Epoch 18 Training: 100%|██████████| 468/468 [05:01<00:00,  1.55it/s]
+Inference: 100%|██████████| 131/131 [00:05<00:00, 25.53it/s]
+Inference done
+Page Features: 100%|██████████| 120/120 [00:00<00:00, 794.76it/s]
+INFO:root:building up NN-Classifier
+INFO:root:KNN fitting data ((120, 6400) features)
+INFO:root:using euclidean distance
+Val-mAP: 0.6753456729900492
+/media/usb/icdar/icdar23/main.py:309: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint = torch.load(os.path.join(logger.log_dir, 'model.pt'))
+Loading model from Epoch 12
+INFO:root:Found 0 images
+Found 0 pages.
+Page Features: 0it [00:00, ?it/s]
+Traceback (most recent call last):
+  File "/media/usb/icdar/icdar23/main.py", line 468, in <module>
+    main(config)
+  File "/media/usb/icdar/icdar23/main.py", line 439, in main
+    test(model, logger, args, name='Test')
+  File "/media/usb/icdar/icdar23/main.py", line 149, in test
+    pfs_per_pooling, writer = encode_per_class(model, args, poolings=sumps)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/usb/icdar/icdar23/main.py", line 107, in encode_per_class
+    pfs_per_pooling = [np.concatenate(pfs) for pfs in pfs_per_pooling]
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/media/usb/icdar/icdar23/main.py", line 107, in <listcomp>
+    pfs_per_pooling = [np.concatenate(pfs) for pfs in pfs_per_pooling]
+                       ^^^^^^^^^^^^^^^^^^^
+ValueError: need at least one array to concatenate
